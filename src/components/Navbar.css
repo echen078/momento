@@ -15,6 +15,6 @@
     z-index: 1000;
 }
 
-.navbar a {
+.navbar a, .navbar span, .navbar button {
     margin-left: 16px;
 }
