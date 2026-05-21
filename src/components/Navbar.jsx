@@ -9,10 +9,12 @@ export function NavBar() {
         <nav className="navbar">
             <span>Momento</span>
             {user ?
-                <> 
+                <>
+                    <Link to="/map">Map</Link>
+                    <Link to="/gallery">Gallery</Link>
                     <span>{user.username}</span>
                     <button onClick={() => {logout(); navigate('/login')}}>Logout</button>
-                </> : 
+                </> :
                 <>
                     <Link to="/login">Login</Link>
                     <Link to="/signup">Signup</Link>
