@@ -24,17 +24,25 @@ function MapClickLogger({ onMapClick }) {
 
 function Map() {
   const [photos, setPhotos] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [isUploadOpen, setIsUploadOpen] = useState(false)
 
   useEffect(() => {
     const fetchPhotos = async () => {
+      setIsLoading(true)
       try {
         const response = await api.get('/photos')
         setPhotos(response.data)
+        setFetchError(null)
       } catch (error) {
         console.error('Failed to load photos', error)
+        const msg = error?.response?.data?.message || error.message || 'Failed to load photos'
+        setFetchError(msg)
       }
+
+      setIsLoading(false)
     }
 
     fetchPhotos()
@@ -51,8 +59,12 @@ function Map() {
   }
 
   const handleUploadSuccess = (newPhoto) => {
-    if (newPhoto) {
-      setPhotos((prev) => [newPhoto, ...prev])
+    try {
+      if (newPhoto) {
+        setPhotos((prev) => [newPhoto, ...prev])
+      }
+    } catch (err) {
+      console.error('Error updating photos after upload', err)
     }
   }
 
@@ -121,10 +133,16 @@ function Map() {
           </MapPin>
         )
       })}
+      {fetchError && (
+        <div className="map-no-photos" role="alert">Error loading photos: {fetchError}</div>
+      )}
+      {!isLoading && photos.length === 0 && (
+        <div className="map-no-photos">No photos yet — click the map to add one</div>
+      )}
       {isUploadOpen && selectedLocation && (
         <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
       )}
-      <MapClickLogger onMapClick={handleMapClick} />
+      {!isUploadOpen && <MapClickLogger onMapClick={handleMapClick} />}
       <PhotoUpload
         lat={selectedLocation?.lat}
         lng={selectedLocation?.lng}

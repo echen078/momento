@@ -27,6 +27,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
+		if (isLoading) return
 		setError(null)
 
 		const formData = new FormData()
@@ -39,11 +40,17 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		try {
 			const res = await api.post('/photos', formData)
 			setIsLoading(false)
-			if (onUploadSuccess) onUploadSuccess(res.data)
+			try {
+				if (onUploadSuccess) onUploadSuccess(res.data)
+			} catch (cbErr) {
+				console.error('onUploadSuccess callback error', cbErr)
+			}
 			if (onClose) onClose()
 		} catch (err) {
 			setIsLoading(false)
-			setError(err?.response?.data?.message || err.message || 'Upload failed')
+			const msg = err?.response?.data?.message || err.message || 'Upload failed'
+			console.error('Upload failed', err)
+			setError(msg)
 		}
 	}
 
@@ -62,7 +69,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 
 					<div className="form-row">
 						<label htmlFor="photo-file">Photo</label>
-						<input id="photo-file" type="file" accept="image/*" onChange={handleFileChange} />
+						<input id="photo-file" type="file" accept="image/*" onChange={handleFileChange} disabled={isLoading} />
 						{file && <div className="file-name">{file.name}</div>}
 					</div>
 
@@ -74,6 +81,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 							value={caption}
 							onChange={(e) => setCaption(e.target.value)}
 							placeholder="Add a caption"
+							disabled={isLoading}
 						/>
 					</div>
 
@@ -82,6 +90,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 					<div className="form-actions">
 						<button type="button" className="btn btn-cancel" onClick={onClose} disabled={isLoading}>Cancel</button>
 						<button type="submit" className="btn btn-submit" disabled={isLoading}>
+							{isLoading && <span className="spinner" aria-hidden="true" />}
 							{isLoading ? 'Uploading...' : 'Submit'}
 						</button>
 					</div>
