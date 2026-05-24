@@ -8,7 +8,7 @@ const uploadPhoto = async (req, res) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        const { lat, lng, caption, tags } = req.body;
+        const { lat, lng, caption, tags, isPublic } = req.body;
 
         if (lat == null || lng == null) {
             return res.status(400).json({ message: 'Latitude and longitude are required' });
@@ -20,6 +20,7 @@ const uploadPhoto = async (req, res) => {
             location: { lat: Number(lat), lng: Number(lng) },
             caption: caption || '',
             tags: tags ? JSON.parse(tags) : [],
+            isPublic: isPublic === 'true' || isPublic === true,
         });
 
         res.status(201).json(photo);
