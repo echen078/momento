@@ -10,6 +10,7 @@ export function GalleryPage() {
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [testTags, setTestTags] = useState([]); {/*for test */}
 
     const fetchPhotos = async () => {
         try {
@@ -42,6 +43,7 @@ export function GalleryPage() {
                 resultCount={photos.length}                                            
                 totalCount={photos.length}
             /> 
+            <TagInput tags={testTags} onChange={setTestTags} />  {/*for test */}
 
             {photos.length === 0 ? (
                 <p className="gallery-status">No photos yet. Upload some from the map!</p>

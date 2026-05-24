@@ -196,7 +196,7 @@ const searchPhotos = async (req, res) => {
         } 
         const photos = await Photo.find(query).skip((page-1)*limit).limit(limit);
         const totalPhotos = await Photo.countDocuments(query);
-        const totalPages = totalPhotos/limit
+        const totalPages = Math.ceil(totalPhotos/limit)
         res.json({photos, page, totalPages, totalPhotos});
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
