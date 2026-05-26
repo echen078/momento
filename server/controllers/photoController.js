@@ -82,6 +82,33 @@ const getPhotoById = async (req, res) => {
     }
 };
 
+const updatePhoto = async (req, res) => {
+    try {
+        const photo = await Photo.findById(req.params.id);
+
+        if (!photo) {
+            return res.status(404).json({ message: 'Photo not found' });
+        }
+
+        if (photo.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to update this photo' });
+        }
+
+        const { caption, tags, isPublic } = req.body;
+
+        if (caption !== undefined) photo.caption = caption;
+        if (tags !== undefined) photo.tags = tags;
+        if (isPublic !== undefined) {
+            photo.isPublic = isPublic === true || isPublic === 'true';
+        }
+
+        await photo.save();
+        res.json(photo);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 const deletePhoto = async (req, res) => {
     try {
         const photo = await Photo.findById(req.params.id);
@@ -139,4 +166,4 @@ const getHeatmapData = async (req, res) => {
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, deletePhoto, getHeatmapData };
+module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, getHeatmapData };

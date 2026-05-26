@@ -5,6 +5,7 @@ import './PhotoUpload.css'
 export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSuccess }) {
 	const [file, setFile] = useState(null)
 	const [caption, setCaption] = useState('')
+	const [isPublic, setIsPublic] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState(null)
 
@@ -12,6 +13,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		if (!open) {
 			setFile(null)
 			setCaption('')
+			setIsPublic(false)
 			setError(null)
 			setIsLoading(false)
 		}
@@ -35,6 +37,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		if (lat !== undefined && lat !== null) formData.append('lat', String(lat))
 		if (lng !== undefined && lng !== null) formData.append('lng', String(lng))
 		formData.append('caption', caption || '')
+		if (isPublic) formData.append('isPublic', 'true')
 
 		setIsLoading(true)
 		try {
@@ -83,6 +86,19 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 							placeholder="Add a caption"
 							disabled={isLoading}
 						/>
+					</div>
+
+					<div className="form-row form-row-checkbox">
+						<label htmlFor="is-public">
+							<input
+								id="is-public"
+								type="checkbox"
+								checked={isPublic}
+								onChange={(e) => setIsPublic(e.target.checked)}
+								disabled={isLoading}
+							/>
+							Share publicly
+						</label>
 					</div>
 
 					{error && <div className="error-message" role="alert">{error}</div>}
