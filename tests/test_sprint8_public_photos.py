@@ -74,18 +74,15 @@ class TestGetPublicPhotos:
         self, base_url, auth_header, test_user_credentials
     ):
         """Public photos list includes populated username."""
-        upload_photo(
+        uploaded = upload_photo(
             base_url, auth_header, is_public=True, caption="Username populate test"
         )
 
         resp = requests.get(f"{base_url}/api/photos/public")
         assert resp.status_code == 200
         photos = resp.json()["photos"]
-        assert len(photos) >= 1
 
-        matching = [
-            p for p in photos if p.get("caption") == "Username populate test"
-        ]
+        matching = [p for p in photos if p["_id"] == uploaded["_id"]]
         assert len(matching) == 1
         assert matching[0]["user"]["username"] == test_user_credentials["username"]
 
