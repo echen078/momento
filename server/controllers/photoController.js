@@ -38,6 +38,28 @@ const getUserPhotos = async (req, res) => {
     }
 };
 
+const getPublicPhotos = async (req, res) => {
+    try {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
+        const skip = (page - 1) * limit;
+
+        const query = { isPublic: true };
+        const totalPhotos = await Photo.countDocuments(query);
+        const totalPages = Math.ceil(totalPhotos / limit) || 1;
+
+        const photos = await Photo.find(query)
+            .populate('user', 'username')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.json({ photos, page, totalPages, totalPhotos });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 const getPhotoById = async (req, res) => {
     try {
         const photo = await Photo.findById(req.params.id);
@@ -46,10 +68,41 @@ const getPhotoById = async (req, res) => {
             return res.status(404).json({ message: 'Photo not found' });
         }
 
-        if (!photo.isPublic && photo.user.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Not authorized to view this photo' });
+        if (photo.isPublic) {
+            return res.json(photo);
         }
 
+        if (req.user && photo.user.toString() === req.user.id) {
+            return res.json(photo);
+        }
+
+        return res.status(403).json({ message: 'Not authorized to view this photo' });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const updatePhoto = async (req, res) => {
+    try {
+        const photo = await Photo.findById(req.params.id);
+
+        if (!photo) {
+            return res.status(404).json({ message: 'Photo not found' });
+        }
+
+        if (photo.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to update this photo' });
+        }
+
+        const { caption, tags, isPublic } = req.body;
+
+        if (caption !== undefined) photo.caption = caption;
+        if (tags !== undefined) photo.tags = tags;
+        if (isPublic !== undefined) {
+            photo.isPublic = isPublic === true || isPublic === 'true';
+        }
+
+        await photo.save();
         res.json(photo);
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
@@ -113,4 +166,4 @@ const getHeatmapData = async (req, res) => {
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPhotoById, deletePhoto, getHeatmapData };
+module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, getHeatmapData };

@@ -1,0 +1,112 @@
+.explore-page {
+    margin: 0 auto;
+    padding: 32px 24px;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.explore-page::-webkit-scrollbar {
+    display: none;
+}
+
+.explore-title {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.explore-subtitle {
+    color: #666;
+    margin: 0 0 24px;
+    font-size: 0.95rem;
+}
+
+.explore-status {
+    text-align: center;
+    margin-top: 60px;
+    color: #666;
+    font-size: 1rem;
+}
+
+.explore-error {
+    color: #c0392b;
+}
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.explore-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.explore-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.explore-card-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+.explore-card-info {
+    padding: 12px;
+}
+
+.explore-card-caption {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.explore-card-username {
+    font-size: 0.82rem;
+    color: #4a6cf7;
+    margin: 0 0 4px;
+    font-weight: 500;
+}
+
+.explore-card-date {
+    font-size: 0.78rem;
+    color: #888;
+    margin: 0;
+}
+
+.explore-load-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.explore-load-more-btn {
+    padding: 10px 28px;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 8px;
+    background: #4a6cf7;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.explore-load-more-btn:hover:not(:disabled) {
+    background: #3a5ce5;
+}
+
+.explore-load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,0 +1,129 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
+import './PhotoDetailPage.css';
+
+export function PhotoDetailPage() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const [photo, setPhoto] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [updating, setUpdating] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+
+    useEffect(() => {
+        const fetchPhoto = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const res = await api.get(`/photos/${id}`);
+                setPhoto(res.data);
+            } catch (err) {
+                const status = err?.response?.status;
+                if (status === 404) {
+                    setError('Photo not found.');
+                } else if (status === 403) {
+                    setError('You do not have permission to view this photo.');
+                } else {
+                    setError('Failed to load photo.');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPhoto();
+    }, [id]);
+
+    const photoOwnerId = photo?.user?._id || photo?.user;
+    const isOwner = user && photo && String(photoOwnerId) === String(user.id);
+
+    const handleTogglePublic = async () => {
+        setUpdating(true);
+        try {
+            const res = await api.put(`/photos/${id}`, { isPublic: !photo.isPublic });
+            setPhoto(res.data);
+        } catch (err) {
+            setError('Failed to update visibility.');
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm('Delete this photo? This cannot be undone.')) return;
+        setDeleting(true);
+        try {
+            await api.delete(`/photos/${id}`);
+            navigate('/gallery');
+        } catch (err) {
+            setError('Failed to delete photo.');
+            setDeleting(false);
+        }
+    };
+
+    if (loading) return <p className="photo-detail-status">Loading photo...</p>;
+    if (error) return <p className="photo-detail-status photo-detail-error">{error}</p>;
+    if (!photo) return null;
+
+    return (
+        <div className="photo-detail-page">
+            <Link to="/explore" className="photo-detail-back">← Back to Explore</Link>
+
+            <div className="photo-detail-layout">
+                <img
+                    src={photo.imageUrl}
+                    alt={photo.caption || 'Photo'}
+                    className="photo-detail-image"
+                />
+
+                <div className="photo-detail-info">
+                    {photo.caption && (
+                        <p className="photo-detail-caption">{photo.caption}</p>
+                    )}
+
+                    <p className="photo-detail-date">
+                        {new Date(photo.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </p>
+
+                    <p className="photo-detail-location">
+                        {photo.location.lat.toFixed(4)}, {photo.location.lng.toFixed(4)}
+                    </p>
+
+                    {photo.isPublic && (
+                        <span className="photo-detail-badge">Public</span>
+                    )}
+
+                    {isOwner && (
+                        <div className="photo-detail-owner-actions">
+                            <label className="photo-detail-toggle">
+                                <input
+                                    type="checkbox"
+                                    checked={photo.isPublic}
+                                    onChange={handleTogglePublic}
+                                    disabled={updating}
+                                />
+                                Share publicly
+                            </label>
+
+                            <button
+                                className="photo-detail-delete"
+                                onClick={handleDelete}
+                                disabled={deleting}
+                            >
+                                {deleting ? 'Deleting...' : 'Delete Photo'}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
