@@ -172,8 +172,8 @@ const searchPhotos = async (req, res) => {
         const { q, tags, startDate, endDate } = req.query;
         const query = {user:req.user.id};
 
-        const page = req.query.page || 1;
-        const limit = req.query.limit || 20;
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
 
         if (q) {
             query.$or = [{caption:{$regex:q,$options:'i'}},{tags:{$regex: q, $options:'i'}}]; 
@@ -194,7 +194,7 @@ const searchPhotos = async (req, res) => {
                 query.createdAt.$lte = eDate
             }                     
         } 
-        const photos = await Photo.find(query).skip((page-1)*limit).limit(limit);
+        const photos = await Photo.find(query).sort({ createdAt: -1 }).skip((page-1)*limit).limit(limit);
         const totalPhotos = await Photo.countDocuments(query);
         const totalPages = Math.ceil(totalPhotos/limit)
         res.json({photos, page, totalPages, totalPhotos});
