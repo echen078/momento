@@ -120,7 +120,7 @@ export function PhotoDetailPage() {
                         photo.tags && photo.tags.length > 0 && (
                             <div className="photo-detail-tags">
                                 {photo.tags.map((tag, i) => (
-                                    <span key={i} className="tag-chip-readonly">{tag}</span>
+                                    <span key={i} className="tag-chip-readonly tag-clickable" onClick={() => navigate(`/gallery?tags=${tag}`)}>{tag}</span>
                                 ))}
                             </div>
                         )

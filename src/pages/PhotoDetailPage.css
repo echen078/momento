@@ -92,6 +92,15 @@
     font-weight: 500;
 }
 
+.tag-clickable {
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.tag-clickable:hover {
+    background: #d8e0ff;
+}
+
 .photo-detail-owner-actions {
     display: flex;
     flex-direction: column;

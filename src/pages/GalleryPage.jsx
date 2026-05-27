@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 import PhotoDetailModal from '../components/PhotoDetailModal';
 import './GalleryPage.css';
 import { SearchBar } from '../components/SearchBar';
 
 export function GalleryPage() {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [photos, setPhotos] = useState([]);
     const [allPhotos, setAllPhotos] = useState([]);
     const [selected, setSelected] = useState(null);
@@ -13,12 +15,23 @@ export function GalleryPage() {
     const [totalCount, setTotalCount] = useState(0);
     const [isFiltering, setIsFiltering] = useState(false);
 
+    const initialTag = searchParams.get('tags');
+    const initialTags = initialTag ? [initialTag] : [];
+
     const fetchPhotos = async () => {
         try {
             const res = await api.get('/photos');
-            setPhotos(res.data);
             setAllPhotos(res.data);
-            setTotalCount(res.data.length);
+
+            if (initialTags.length > 0) {
+                setIsFiltering(true);
+                const searchRes = await api.get('/photos/search', { params: { tags: initialTag } });
+                setPhotos(searchRes.data.photos);
+                setTotalCount(searchRes.data.totalPhotos);
+            } else {
+                setPhotos(res.data);
+                setTotalCount(res.data.length);
+            }
         } catch (err) {
             setError('Failed to load photos.');
         } finally {
@@ -72,6 +85,7 @@ export function GalleryPage() {
                 onSearch={handleSearch}
                 resultCount={photos.length}
                 totalCount={isFiltering ? totalCount : photos.length}
+                initialTags={initialTags}
             />
             {photos.length === 0 ? (
                 <p className="gallery-status">No photos yet. Upload some from the map!</p>
@@ -98,7 +112,11 @@ export function GalleryPage() {
                                 {photo.tags && photo.tags.length > 0 && (
                                     <div className="gallery-card-tags">
                                         {photo.tags.map((tag, i) => (
-                                            <span key={i} className="tag">{tag}</span>
+                                            <span key={i} className="tag tag-clickable" onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSearchParams({ tags: tag });
+                                                handleSearch({ q: '', tags: [tag], startDate: '', endDate: '' });
+                                            }}>{tag}</span>
                                         ))}
                                     </div>
                                 )}
