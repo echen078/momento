@@ -1,6 +1,6 @@
 .map-wrapper {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--navbar-height));
   position: relative;
 }
 
@@ -11,68 +11,91 @@
   overflow: hidden;
 }
 
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  font-family: inherit;
+}
+
 .map-pin-popup {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 200px;
+  width: 220px;
 }
 
 .map-pin-thumbnail {
-  width: 150px;
+  width: 100%;
   height: 150px;
-  border-radius: 8px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   object-fit: cover;
+  display: block;
 }
 
-.popup-caption,
-.popup-date {
-  font-size: 14px;
-  line-height: 1.4;
+.map-pin-body {
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .popup-caption {
-  font-weight: 500;
-  color: #222;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+  line-height: 1.4;
 }
 
 .popup-date {
-  color: #666;
-  font-size: 13px;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.popup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
 }
 
 .popup-actions {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 4px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-1);
 }
 
-.popup-delete {
-  background: #d32f2f;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  transition: all 0.2s;
+.popup-view-link {
+  font-size: var(--text-sm);
+  color: var(--color-secondary);
+  text-decoration: none;
+  font-weight: var(--font-medium);
 }
 
-.popup-delete:hover {
-  background: #b71c1c;
+.popup-view-link:hover {
+  text-decoration: underline;
+}
+
+.popup-delete-btn {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
 }
 
 .map-no-photos {
   position: absolute;
-  top: 16px;
+  top: var(--space-4);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   z-index: 600;
-  font-weight: 600;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
 }
