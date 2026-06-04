@@ -1,6 +1,6 @@
 # Sprint 12: Design System Foundation + Navbar
 
-**Assignee:** TBD
+**Assignee:** Anthony
 **Goal:** Establish a cohesive CSS design system (CSS custom properties, shared utility classes, Inter font) and restyle the Navbar. Every subsequent sprint depends on the tokens defined here.
 **Dependencies:** Sprints 1–11 (all merged into main).
 **Parallel notes:** This sprint **must merge first** — Sprints 13–16 all consume the CSS variables and shared classes defined here. The only files modified are `src/index.css`, `src/App.css`, `src/components/Navbar.jsx`, and `src/components/Navbar.css` — no conflicts expected with other sprints.

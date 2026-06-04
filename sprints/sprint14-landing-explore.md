@@ -1,6 +1,6 @@
 # Sprint 14: Landing Page + Explore Page
 
-**Assignee:** TBD
+**Assignee:** Amy
 **Goal:** Restyle the Landing Page and Explore Page using the design system tokens from Sprint 12. The Landing Page is the first thing visitors see — it needs to feel polished and inviting. The Explore Page shows public photos in a clean grid.
 **Dependencies:** Sprint 12 (design system + navbar) must be merged first. No dependency on Sprints 13, 15, or 16 — can run in parallel with them.
 **Parallel notes:** This sprint only modifies `LandingPage.jsx`, `LandingPage.css`, `ExplorePage.jsx`, `ExplorePage.css`, and the `ExploreCard` component. No conflicts expected with other sprints.

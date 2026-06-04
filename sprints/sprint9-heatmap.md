@@ -1,6 +1,6 @@
 # Sprint 9: Community Heatmap & Map View Toggle
 
-**Assignee:** TBD
+**Assignee:** Gokul
 **Goal:** Add a toggle to the map that lets users switch between two views: **"My Photos"** (their own photo pins, the default) and **"Community Heatmap"** (a heat overlay showing where all public photos are concentrated, with weekly/monthly/yearly time filters). Build the heatmap components, backend endpoint, and toggle controls.
 **Dependencies:** Sprints 1–5 (already merged into main). No dependency on Sprints 7, 8, or 10 — can start immediately.
 **Parallel notes:** The heatmap components (`HeatmapLayer`, `MapViewToggle`) are all-new files with zero conflicts. The backend endpoint (`GET /api/photos/heatmap`) is a new function and route — easy merge. **The one merge ordering constraint:** this sprint adds the view toggle to `Map.jsx`, which Sprint 6 also modifies. **Merge Sprint 6 first, then rebase this sprint on top.** You can develop in parallel — just be prepared to rebase onto Sprint 6's version of `Map.jsx` before merging.

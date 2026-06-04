@@ -1,6 +1,6 @@
 # Sprint 5: Frontend Layout, Routing & Auth Pages
 
-**Assignee:** TBD
+**Assignee:** Anthony
 **Goal:** Set up React Router, create the app's page structure, and build the login/signup UI that connects to the auth API.
 **Dependencies:** Sprint 2 (auth API) must be complete to test the forms end-to-end. You can build the UI first and test against the API once it's ready.
 

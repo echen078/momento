@@ -11,32 +11,29 @@ export function LandingPage() {
     return (
         <div className="landing-page">
             <section className="landing-hero">
-                <h1 className="landing-title">Pin your memories to the map</h1>
+                <h1 className="landing-title">Pin your <span>memories</span> to the map</h1>
                 <p className="landing-subtitle">
                     Upload photos, pin them to real locations across Los Angeles, and explore where the community is going.
                 </p>
                 <div className="landing-cta">
-                    <Link to="/signup" className="landing-btn-primary">Sign Up</Link>
-                    <Link to="/explore" className="landing-btn-secondary">Explore</Link>
+                    <Link to="/signup" className="btn btn-primary">Get Started</Link>
+                    <Link to="/explore" className="btn btn-outline">Explore Photos</Link>
                 </div>
             </section>
 
+            <h2 className="landing-features-title">How It Works</h2>
             <section className="landing-features">
-                <div className="landing-feature">
-                    <h3>Pin Photos</h3>
-                    <p>Click anywhere on the LA map to upload and pin a photo to that exact location.</p>
+                <div className="card landing-feature">
+                    <h3>📍 Pin Your Photos</h3>
+                    <p>Click anywhere on the Los Angeles map to upload and pin a photo to that exact location.</p>
                 </div>
-                <div className="landing-feature">
-                    <h3>Explore</h3>
-                    <p>Browse public photos from the community and discover hidden gems around the city.</p>
-                </div>
-                <div className="landing-feature">
-                    <h3>Heatmaps</h3>
-                    <p>See where people are actually going with community heatmaps filtered by week, month, or year.</p>
-                </div>
-                <div className="landing-feature">
-                    <h3>Search</h3>
-                    <p>Search your photos by caption, tags, or date to find any memory instantly.</p>
+                <div className="card landing-feature">
+                    <h3>🗺️ Build Your Map</h3>
+                    <p>Build up your personal map with pinned memories, and add to community heatmaps filtered by week, month, or year.</p>
+</div>
+                <div className="card landing-feature">
+                    <h3>🌎 Explore The Community</h3>
+                    <p>Search public photos from the community by caption, tags, or date and discover hidden gems around the city.</p>
                 </div>
             </section>
         </div>

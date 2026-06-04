@@ -1,6 +1,6 @@
 # Sprint 6: Photo Pinning on the Map
 
-**Assignee:** TBD
+**Assignee:** Amy
 **Goal:** Connect the photo upload system to the map so users can pin photos to locations and see their uploaded photos as markers on the map.
 **Dependencies:** Sprints 1–5 (already merged into main). No dependency on Sprints 7–10 — can start immediately.
 **Parallel notes:** This sprint modifies `Map.jsx` and `MapPin.jsx`. Sprint 9 (heatmap) will later add to `Map.jsx`, so Sprint 9's PR should merge after this one to avoid conflicts. All other sprints are safe to work on in parallel.

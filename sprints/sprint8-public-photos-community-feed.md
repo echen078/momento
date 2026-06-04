@@ -1,6 +1,6 @@
 # Sprint 8: Public Photos & Community Feed
 
-**Assignee:** TBD
+**Assignee:** Ellen
 **Goal:** Let users mark photos as public, build a public photos API with pagination, create an Explore page, and create the `optionalAuth` middleware. Community photo data on the map will be handled by Sprint 9 (heatmap), not individual pins.
 **Dependencies:** Sprints 1–5 (already merged into main). No dependency on Sprints 6, 7, 9, or 10 — can start immediately.
 **Parallel notes:** The backend work (public API, optionalAuth) is entirely new functions and routes — zero conflict with other sprints. The Explore page is a brand-new file. The only integration points are small additions to `App.jsx` (route), `Navbar.jsx` (link), and `photoController.js`/`photoRoutes.js` (new exports). After Sprint 6 merges, you can add the public toggle to the upload modal as a quick follow-up. Note: community photo data on the map is shown as a heatmap (Sprint 9), not as individual pins — this keeps the map clean and avoids cluttering it with hundreds of markers.
