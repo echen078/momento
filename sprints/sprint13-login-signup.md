@@ -1,6 +1,6 @@
 # Sprint 13: Login & Signup Pages
 
-**Assignee:** TBD
+**Assignee:** Ho Lok
 **Goal:** Restyle the Login and Signup pages using the design system tokens from Sprint 12. Both pages should feel visually consistent — same card layout, same input styling, same error handling patterns.
 **Dependencies:** Sprint 12 (design system + navbar) must be merged first. No dependency on Sprints 14–16 — can run in parallel with them.
 **Parallel notes:** This sprint only modifies `LoginPage.jsx`, `LoginPage.css`, `signup.jsx`, and `signup.css`. No conflicts expected with other sprints.

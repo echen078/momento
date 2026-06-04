@@ -1,6 +1,6 @@
 # Sprint 2: User Authentication (Signup & Login API)
 
-**Assignee:** TBD
+**Assignee:** Ho Lok
 **Goal:** Build the backend authentication system so users can register, log in, and have their identity verified on protected routes.
 **Dependencies:** Sprint 1 must be complete (backend server & MongoDB must be running)
 

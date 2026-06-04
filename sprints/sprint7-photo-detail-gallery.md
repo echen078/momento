@@ -1,6 +1,6 @@
 # Sprint 7: Photo Detail View & Gallery Page
 
-**Assignee:** TBD
+**Assignee:** Ho Lok
 **Goal:** Build a gallery page where users can browse all their photos in a grid, and a detail view that shows a full-size photo with its metadata and location on a mini-map. Also add a backend PUT endpoint for editing photo metadata.
 **Dependencies:** Sprints 1–5 (already merged into main). No dependency on Sprints 6, 8, 9, or 10 — can start immediately.
 **Parallel notes:** You don't need Sprint 6 to be done. You can upload test photos via Postman or curl using the existing `POST /api/photos` endpoint (see Sprint 4). This sprint creates all-new page files and only lightly touches `App.jsx` (adding routes) and `Navbar.jsx` (adding a Gallery link) — easy to merge with other sprints.

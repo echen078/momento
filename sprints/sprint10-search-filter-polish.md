@@ -1,6 +1,6 @@
 # Sprint 10: Search, Filtering & Landing Page
 
-**Assignee:** TBD
+**Assignee:** Anthony
 **Goal:** Add photo tagging, search/filter functionality, build reusable UI components (TagInput, SearchBar), and create a landing page. This sprint mostly creates new files and can be worked on immediately.
 **Dependencies:** Sprints 1–5 (already merged into main). No dependency on Sprints 6, 7, 8, or 9 — can start immediately.
 **Parallel notes:** Almost everything in this sprint is new files (TagInput, SearchBar, LandingPage, search API). The backend search endpoint is a new function and route. After other sprints merge, there are small integration tasks (wiring TagInput into the upload modal and detail page) that can be done as a quick follow-up.

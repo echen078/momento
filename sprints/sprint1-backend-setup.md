@@ -1,6 +1,6 @@
 # Sprint 1: Backend Server & Database Setup
 
-**Assignee:** TBD
+**Assignee:** Amy
 **Goal:** Stand up the Express.js backend server and connect it to MongoDB so the rest of the team has an API foundation to build on.
 **Dependencies:** None — can start immediately
 

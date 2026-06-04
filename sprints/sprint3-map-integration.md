@@ -1,6 +1,6 @@
 # Sprint 3: Frontend Map Integration
 
-**Assignee:** TBD
+**Assignee:** Ellen
 **Goal:** Set up the interactive map on the frontend using React Leaflet so users can view, pan, and zoom around Los Angeles.
 **Dependencies:** None — this is pure frontend work, can start immediately
 

@@ -1,6 +1,6 @@
 # Sprint 16: Map Page
 
-**Assignee:** TBD
+**Assignee:** Gokul
 **Goal:** Restyle the Map page UI — the upload modal, map view toggle, map pin popups, and any surrounding chrome — using the design system tokens from Sprint 12. The map itself (Leaflet tiles) stays as-is, but everything around it should match the orange+neutral design system.
 **Dependencies:** Sprint 12 (design system + navbar) must be merged first. No dependency on Sprints 13, 14, or 15 — can run in parallel with them.
 **Parallel notes:** This sprint modifies Map components, PhotoUpload, and MapViewToggle. No other design sprint touches these files.

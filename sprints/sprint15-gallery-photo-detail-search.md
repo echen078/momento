@@ -1,6 +1,6 @@
 # Sprint 15: Gallery, Photo Detail & Search
 
-**Assignee:** TBD
+**Assignee:** Ellen
 **Goal:** Restyle the Gallery page, Photo Detail page/modal, SearchBar, and TagInput using the design system tokens from Sprint 12. These are interconnected components — tags flow between the gallery grid, search filters, and detail views.
 **Dependencies:** Sprint 12 (design system + navbar) must be merged first. No dependency on Sprints 13, 14, or 16 — can run in parallel with them.
 **Parallel notes:** This sprint modifies Gallery, PhotoDetail, SearchBar, PhotoDetailModal, and TagInput files. No other sprint should be touching these files, so conflicts are unlikely.

@@ -1,6 +1,6 @@
 # Sprint 4: Photo Upload API & Storage
 
-**Assignee:** TBD
+**Assignee:** Gokul
 **Goal:** Build the backend API for uploading, storing, and retrieving photos with location data.
 **Dependencies:** Sprint 1 (server & DB) and Sprint 2 (auth middleware) must be complete
 
