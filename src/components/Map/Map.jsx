@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api from '../../api/axios'
 import MapPin from './MapPin.jsx'
 import HeatmapLayer from './HeatmapLayer.jsx'
@@ -166,12 +167,23 @@ function Map() {
                 <img
                   className="map-pin-thumbnail"
                   src={thumbnailSrc}
+                  alt={photo.caption || 'Photo'}
                 />
               )}
-              <div className="popup-caption">{photo.caption || 'No caption'}</div>
-              <div className="popup-date">Uploaded {formattedDate}</div>
-              <div className="popup-actions">
-                <button className="popup-delete" onClick={() => handleDelete(photo._id)}>Delete</button>
+              <div className="map-pin-body">
+                <div className="popup-caption">{photo.caption || 'No caption'}</div>
+                <div className="popup-date">{formattedDate}</div>
+                {photo.tags && photo.tags.length > 0 && (
+                  <div className="popup-tags">
+                    {photo.tags.map((tag, i) => (
+                      <span key={i} className="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+                <div className="popup-actions">
+                  <Link to={`/photos/${photo._id}`} className="popup-view-link">View Details</Link>
+                  <button className="btn btn-danger popup-delete-btn" onClick={() => handleDelete(photo._id)}>Delete</button>
+                </div>
               </div>
             </div>
           </MapPin>
