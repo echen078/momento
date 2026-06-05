@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import PhotoDetailModal from '../components/PhotoDetailModal';
+import { useAuth } from '../context/AuthContext';
 import './ExplorePage.css';
 
-function ExploreCard({ photo, onClick }) {
+function ExploreCard({ photo, isOwner, onClick, onEdit }) {
     const [imageError, setImageError] = useState(false);
 
     return (
         <div className="card explore-card" onClick={onClick}>
+            {isOwner && <span className="explore-card-mine-badge">Mine</span>}
+
             {imageError ? (
                 <div className="explore-card-placeholder" aria-hidden="true">
                     <span className="explore-card-placeholder-icon">📷</span>
@@ -31,19 +34,33 @@ function ExploreCard({ photo, onClick }) {
                 <p className="explore-card-date">
                     {new Date(photo.createdAt).toLocaleDateString()}
                 </p>
+                {isOwner && (
+                    <button
+                        type="button"
+                        className="btn btn-outline explore-card-edit"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit();
+                        }}
+                    >
+                        Edit
+                    </button>
+                )}
             </div>
         </div>
     );
 }
 
 export function ExplorePage() {
+    const { user } = useAuth();
     const [photos, setPhotos] = useState([]);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [modalMode, setModalMode] = useState('view');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     const fetchPhotos = async (pageNum, append = false) => {
         try {
@@ -79,6 +96,48 @@ export function ExplorePage() {
         }
     };
 
+    const getPhotoOwnerId = (photo) => photo.user?._id || photo.user;
+    const isOwnPhoto = (photo) => (
+        user && String(getPhotoOwnerId(photo)) === String(user.id)
+    );
+
+    const openViewModal = (photo) => {
+        setSelectedPhoto(photo);
+        setModalMode('view');
+    };
+
+    const openEditModal = (photo) => {
+        setSelectedPhoto(photo);
+        setModalMode('edit');
+    };
+
+    const closeModal = () => {
+        setSelectedPhoto(null);
+        setModalMode('view');
+    };
+
+    const handlePhotoUpdate = (updatedPhoto) => {
+        const normalizedPhoto = {
+            ...updatedPhoto,
+            user: selectedPhoto?.user || updatedPhoto.user,
+        };
+        const replacePhoto = (photo) => (
+            photo._id === normalizedPhoto._id ? normalizedPhoto : photo
+        );
+
+        setPhotos((prev) => (
+            normalizedPhoto.isPublic
+                ? prev.map(replacePhoto)
+                : prev.filter((photo) => photo._id !== normalizedPhoto._id)
+        ));
+        setSelectedPhoto(normalizedPhoto);
+    };
+
+    const handleDelete = (deletedId) => {
+        setPhotos((prev) => prev.filter((photo) => photo._id !== deletedId));
+        closeModal();
+    };
+
     if (loading) return <p className="explore-status">Loading community photos...</p>;
     if (error) return <p className="explore-status explore-error">{error}</p>;
 
@@ -96,7 +155,9 @@ export function ExplorePage() {
                             <ExploreCard
                                 key={photo._id}
                                 photo={photo}
-                                onClick={() => navigate(`/photos/${photo._id}`)}
+                                isOwner={isOwnPhoto(photo)}
+                                onClick={() => openViewModal(photo)}
+                                onEdit={() => openEditModal(photo)}
                             />
                         ))}
                     </div>
@@ -113,6 +174,16 @@ export function ExplorePage() {
                         </div>
                     )}
                 </>
+            )}
+
+            {selectedPhoto && (
+                <PhotoDetailModal
+                    photo={selectedPhoto}
+                    onClose={closeModal}
+                    onDelete={handleDelete}
+                    onUpdate={handlePhotoUpdate}
+                    isOwner={modalMode === 'edit'}
+                />
             )}
         </div>
     );
