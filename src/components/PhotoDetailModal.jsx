@@ -3,7 +3,16 @@ import api from '../api/axios';
 import { TagInput } from './TagInput';
 import './PhotoDetailModal.css';
 
-export default function PhotoDetailModal({ photo, onClose, onDelete, onUpdate, isOwner = true }) {
+export default function PhotoDetailModal({
+    photo,
+    onClose,
+    onDelete,
+    onUpdate,
+    isOwner = true,
+    canLike = false,
+    onToggleLike,
+    liking = false,
+}) {
     const [updating, setUpdating] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(null);
@@ -103,6 +112,21 @@ export default function PhotoDetailModal({ photo, onClose, onDelete, onUpdate, i
                         >
                             {photo.isPublic ? 'Public' : 'Private'}
                         </span>
+                    )}
+
+                    {canLike && (
+                        <button
+                            type="button"
+                            className={[
+                                'photo-detail-modal-like',
+                                photo.likedByMe ? 'photo-detail-modal-like--liked' : '',
+                            ].join(' ')}
+                            onClick={() => onToggleLike?.(photo)}
+                            disabled={liking}
+                            aria-pressed={Boolean(photo.likedByMe)}
+                        >
+                            {photo.likedByMe ? 'Liked' : 'Like'} · {photo.likeCount || 0}
+                        </button>
                     )}
 
                     {isOwner ? (
