@@ -186,11 +186,11 @@ momento/
 | 3 | Frontend Map Integration | Ellen |
 | 4 | Photo Upload API | Gokul |
 | 5 | Frontend Layout & Routing | Anthony |
-| 6 | Photo Pinning on Map | Ho Lok |
-| 7 | Photo Detail & Gallery | Anthony |
+| 6 | Photo Pinning on Map | Amy |
+| 7 | Photo Detail & Gallery | Ho Lok |
 | 8 | Public Photos & Community Feed | Ellen |
 | 9 | Community Heatmap | Gokul |
-| 10 | Search & Filtering | Amy |
+| 10 | Search & Filtering | Anthony |
 | 11 | Integration Wiring | Gokul |
 | 12 | Design System & Navbar | Anthony |
 | 13 | Login & Signup Restyle | Ho Lok |
