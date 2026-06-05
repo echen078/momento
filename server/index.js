@@ -1,3 +1,5 @@
+// [GenAI Use] Detailed prompt, LLM response, reflection, and ownership notes for
+// AI-assisted backend work are documented in ../GENAI_USE.md.
 require('dotenv').config();
 const express = require('express');
 const path = require('path');

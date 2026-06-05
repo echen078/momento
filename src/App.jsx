@@ -1,3 +1,5 @@
+// [GenAI Use] Detailed prompt, LLM response, reflection, and ownership notes for
+// AI-assisted frontend work are documented in ../GENAI_USE.md.
 import { SignupPage } from './pages/signup'
 import { MapPage } from './pages/Map'
 import { LoginPage } from './pages/LoginPage'
