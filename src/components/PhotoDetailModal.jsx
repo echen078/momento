@@ -1,10 +1,44 @@
 import { useState } from 'react';
 import api from '../api/axios';
+import { TagInput } from './TagInput';
 import './PhotoDetailModal.css';
 
-export default function PhotoDetailModal({ photo, onClose, onDelete, isOwner = true }) {
+export default function PhotoDetailModal({ photo, onClose, onDelete, onUpdate, isOwner = true }) {
+    const [updating, setUpdating] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(null);
+
+    const applyPhotoUpdate = (updatedPhoto) => {
+        onUpdate?.(updatedPhoto);
+    };
+
+    const handleTagsChange = async (newTags) => {
+        setUpdating(true);
+        setError(null);
+        try {
+            const res = await api.put(`/photos/${photo._id}`, { tags: newTags });
+            applyPhotoUpdate(res.data);
+        } catch {
+            setError('Failed to update tags.');
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleTogglePublic = async () => {
+        setUpdating(true);
+        setError(null);
+        try {
+            const res = await api.put(`/photos/${photo._id}`, {
+                isPublic: !photo.isPublic,
+            });
+            applyPhotoUpdate(res.data);
+        } catch {
+            setError('Failed to update visibility.');
+        } finally {
+            setUpdating(false);
+        }
+    };
 
     const handleDelete = async () => {
         if (!window.confirm('Delete this photo? This cannot be undone.')) return;
@@ -12,7 +46,7 @@ export default function PhotoDetailModal({ photo, onClose, onDelete, isOwner = t
         try {
             await api.delete(`/photos/${photo._id}`);
             onDelete(photo._id);
-        } catch (err) {
+        } catch {
             setError('Failed to delete photo.');
             setDeleting(false);
         }
@@ -71,27 +105,49 @@ export default function PhotoDetailModal({ photo, onClose, onDelete, isOwner = t
                         </span>
                     )}
 
-                    {photo.tags && photo.tags.length > 0 && (
-                        <div className="photo-detail-modal-tags">
-                            {photo.tags.map((tag, i) => (
-                                <span key={i} className="tag">
-                                    {tag}
-                                </span>
-                            ))}
+                    {isOwner ? (
+                        <div className="photo-detail-modal-tags-section">
+                            <label className="photo-detail-modal-label">Tags</label>
+                            <TagInput
+                                tags={photo.tags || []}
+                                onChange={handleTagsChange}
+                            />
                         </div>
+                    ) : (
+                        photo.tags && photo.tags.length > 0 && (
+                            <div className="photo-detail-modal-tags">
+                                {photo.tags.map((tag, i) => (
+                                    <span key={i} className="tag">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )
                     )}
 
                     {error && <p className="photo-detail-modal-error">{error}</p>}
 
                     {isOwner && (
-                        <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={handleDelete}
-                            disabled={deleting}
-                        >
-                            {deleting ? 'Deleting...' : 'Delete Photo'}
-                        </button>
+                        <div className="photo-detail-modal-owner-actions">
+                            <label className="photo-detail-modal-toggle">
+                                <input
+                                    type="checkbox"
+                                    checked={photo.isPublic}
+                                    onChange={handleTogglePublic}
+                                    disabled={updating || deleting}
+                                />
+                                Share publicly
+                            </label>
+
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={handleDelete}
+                                disabled={deleting || updating}
+                            >
+                                {deleting ? 'Deleting...' : 'Delete Photo'}
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
