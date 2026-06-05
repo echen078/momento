@@ -18,6 +18,10 @@ This file documents generative AI assistance used while creating Momento followi
 
 Some prompts below are reconstructed from memory because the exact original chat transcripts were not preserved. The descriptions are intended to accurately represent the type of assistance received and how the generated output was used.
 
+For sprint-assigned work, I primarily followed the sprint instructions and used generative AI when I needed clarification about the requirements or did not know how to implement a specific step. I generally asked AI to implement the sprint tasks one step at a time while explaining: (1) the purpose of the step, (2) what the code was doing, and (3) how the change fit into the existing project. I reviewed each step, double-checked the output, and approved, rejected, or modified the implementation before committing it.
+
+For additional features that were not directly part of a sprint, I made the design decisions about which features to add and how they should behave. When I was unsure about implementation details, I used AI in a planning role: I asked it for suggestions, tradeoffs, and clarifying questions, then made the final product and design decisions before asking it to help build the feature.
+
 All generated code, suggestions, and documentation were reviewed, modified, tested, and integrated into the project before being committed.
 
 ### Overall Ownership Estimate
@@ -26,19 +30,21 @@ I feel ownership over approximately 75% of the code I personally committed.
 
 Generative AI was primarily used for implementation guidance, debugging support, React/Express patterns, test generation, and documentation drafting. I reviewed all generated outputs, adapted them to the existing codebase, and verified behavior through manual testing and project requirements before committing changes.
 
+For sprint work, my ownership comes from following the sprint specs, understanding each generated step through explanation, checking the implementation against the requirements, and deciding what to keep or change. For non-sprint features, my ownership is higher because I chose the feature direction and used AI mainly to help plan and implement the details after I made the design decisions.
+
 
 ### Sprint 3 Map Integration
 
 ```js
 // [GenAI Use] Prompt:
-// "Sprint 3 — Frontend Map Integration (Ellen). Set up an interactive Leaflet map in our Vite + React app: install react-leaflet and leaflet, import leaflet.css in main.jsx, and fix the default marker icon issue with Vite (L.Icon.Default.mergeOptions with imported icon/shadow images). Build src/components/Map/Map.jsx using MapContainer and TileLayer centered on Los Angeles [34.0522, -118.2437] at zoom 12 with OpenStreetMap tiles. Add a useMapEvents helper inside MapContainer that logs lat/lng on map click. Create a reusable MapPin.jsx component (Marker + Popup, accepts position and children). Demo with 4–5 hardcoded LA pins (Santa Monica Pier, Griffith Observatory, UCLA, Grand Central Market). Style with Map.css so the map is full viewport (100% width, 100vh) with no overflow glitches."
+// "Reconstructed/generalized prompt based on Sprint 3 instructions: Help me complete the frontend map integration sprint one step at a time. Explain the purpose of each step and what the code is doing. I need to use React Leaflet in a Vite React app, render a map centered on Los Angeles, create reusable map pins with popups, handle Leaflet CSS/default marker setup, and style the map so it displays correctly."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested using React Leaflet components such as MapContainer, TileLayer, Marker, Popup, and useMapEvents. It also suggested creating a reusable MapPin component, importing Leaflet CSS correctly, and styling the map container.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I adapted the suggestions to the existing project structure, created the Map and MapPin components, integrated them into the application, and tested the functionality locally.
+// I followed the sprint requirements and used AI to clarify unfamiliar React Leaflet setup details. I reviewed each generated step, checked that it matched the sprint instructions, adapted the code to the existing project structure, and tested the map locally before committing.
 
 // [GenAI Use] Ownership: 70%
 //
@@ -51,14 +57,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Sprint 8 — Public Photos & Community Feed (Ellen). Backend: add optionalAuth middleware in auth.js (valid token sets req.user, missing/invalid token still calls next without 401). Update uploadPhoto to read isPublic from multipart form data (compare to string 'true'). Add getPublicPhotos in photoController.js — query isPublic: true, paginate with page/limit, sort by createdAt desc, populate user username, return { photos, page, totalPages, totalPhotos }. Route GET /api/photos/public before /:id. Change GET /api/photos/:id to optionalAuth so public photos are viewable without login; private photos return 403 for non-owners. Frontend: create ExplorePage.jsx/css — responsive grid of public photos (thumbnail, caption, username, date), Load More pagination, link to /photos/:id, no login required. Add /explore route in App.jsx (not ProtectedRoute) and always-visible Explore link in Navbar. Write tests/test_sprint8_public_photos.py covering isPublic upload, public listing, pagination, optionalAuth access rules. Do NOT add community pins to Map.jsx — Sprint 9 handles heatmap."
+// "Reconstructed/generalized prompt based on Sprint 8 instructions: Help me implement the public photos and community feed sprint one step at a time. Explain what each backend and frontend change is for. I need public/private photo support, an optional auth path for public photo viewing, paginated public photo retrieval, an Explore page for browsing public photos, routing/navigation updates, and tests for the public/private access rules."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested public-photo routes, optional authentication, paginated API responses, React state management, and an Explore page UI for browsing public content.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I reviewed the authorization requirements, integrated the feature with existing backend and frontend patterns, and manually verified functionality.
+// I followed the sprint instructions and used AI to clarify the backend authorization flow and frontend pagination/state patterns. I reviewed the generated code carefully because this feature affected public/private access, integrated it with the existing API conventions, and manually verified the behavior.
 
 // [GenAI Use] Ownership: 80%
 //
@@ -71,14 +77,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Sprint 8 Task 8 — Write tests/test_sprint8_public_photos.py following test_sprint4_photos.py and conftest.py fixtures. Cover: upload with isPublic=true → 201 isPublic true; upload without isPublic → default false; GET /api/photos/public returns { photos, page, totalPages, totalPhotos } with populated username; private photos excluded; pagination ?page=1&limit=2; public list works without auth; GET /api/photos/:id for public photo without auth → 200; private photo without auth → 403; private photo with owner auth → 200."
+// "Reconstructed/generalized prompt based on the Sprint 8 testing task: Help me write E2E tests for the public photos feature using the existing pytest fixtures. Explain the purpose of each test. Cover public upload behavior, default private behavior, public listing, pagination, public access without login, and private photo protection."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested pytest test cases covering authentication, uploads, public-photo retrieval, private-photo protection, and robust assertions.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I reviewed the tests, adjusted assertions, integrated them with the existing test suite, and confirmed that they exercised actual API behavior.
+// I used the sprint testing requirements as the source of truth and asked AI to explain what each test proved. I reviewed the tests, adjusted brittle assertions, integrated them with the existing test suite, and confirmed that they exercised actual API behavior.
 
 // [GenAI Use] Ownership: 65%
 //
@@ -91,14 +97,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Reconstructed/generalized prompt: Integrate public/private sharing across the photo upload flow and photo detail view. Users should be able to choose whether a photo is public, owners should be able to edit visibility, and the UI should clearly show public/private status."
+// "Reconstructed/generalized planning prompt: I want to improve Momento by making public/private sharing clearer across upload and photo detail views. Help me think through the UX and implementation options. Users should be able to choose whether a photo is public, owners should be able to edit visibility, and the UI should clearly show public/private status. Ask clarifying questions if needed before implementation."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested passing an isPublic field through upload forms, updating visibility through API routes, displaying public/private badges, and restricting edit controls to owners.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I adapted these ideas to the existing Photo model and UI components while verifying authorization behavior and owner-only controls.
+// This was an additional design decision I made beyond simply following a sprint checklist. I used AI to help flesh out implementation details, but I decided that visibility controls and badges should exist, reviewed the suggested approach, and verified authorization behavior and owner-only controls.
 
 // [GenAI Use] Ownership: 85%
 //
@@ -111,14 +117,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Reconstructed/generalized prompt: Improve Momento's upload flow and backend image handling. Support common phone image formats, create the uploads directory if needed, normalize images when possible, and return clearer upload error messages."
+// "Reconstructed/generalized planning prompt: I want to improve Momento's upload experience because users may upload phone photos and confusing upload failures are hard to debug. Help me plan and implement support for common image formats, safer upload directory handling, image normalization when possible, and clearer upload error messages. Explain each step before changing it."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested expanding upload validation, ensuring upload directories exist, improving error handling, and supporting additional image formats.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I reviewed the suggestions, integrated them into the existing upload pipeline, and verified expected upload scenarios.
+// I chose this improvement because it made the app more usable outside the base sprint requirements. I used AI to suggest implementation options and explain unfamiliar upload/image-handling details, then kept the approach that fit the existing upload pipeline and verified expected upload scenarios.
 
 // [GenAI Use] Ownership: 70%
 //
@@ -131,14 +137,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Sprint 15 — Gallery, Photo Detail & Search Restyle (Ellen). After Sprint 12 design system is merged, restyle GalleryPage, SearchBar, PhotoDetailPage, PhotoDetailModal, and TagInput using shared tokens from App.css (var(--color-*), .card, .tag, .input, .btn, .btn-primary, .btn-danger, .overlay, .modal). Gallery: var(--color-bg-page) background, responsive auto-fill grid (minmax 300px, 3→2→1 columns), .card photo cards with cover images, orange .tag pills on cards (click-to-filter must still work), empty state message. SearchBar: .input with orange focus ring, date inputs matching .input, active filter chips with var(--color-primary-light) bg and × remove buttons, Clear all link, result count in var(--color-text-secondary). PhotoDetailPage: centered .card max-width 900px; PhotoDetailModal: .overlay + .modal, owner edit/delete controls, public/private badge pills. TagInput: replace old blue chips with orange .tag pills, × hover turns red, suggestions use gray hover states. Preserve existing URL tag sync (?tags=food,beach) and all search/filter/delete behavior — styling only, no logic regressions."
+// "Reconstructed/generalized prompt based on Sprint 15 instructions: Help me restyle the gallery, search, photo detail, modal, and tag input features using the shared design system. Work step by step and explain each change. Preserve existing behavior like tag filtering, URL tag sync, delete/edit flows, and owner controls while improving layout, empty states, badges, and responsive styling."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested React state-management patterns, filter handling, UI improvements, modal editing flows, and responsive layout refinements.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I integrated the ideas into existing gallery and photo-detail components and manually tested the resulting user experience.
+// I followed the sprint restyle requirements while using AI to explain how to apply the design-system tokens and avoid logic regressions. I reviewed the generated changes, adjusted the styling to match the app, and manually tested gallery/search/photo-detail interactions.
 
 // [GenAI Use] Ownership: 85%
 //
@@ -151,14 +157,14 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ```js
 // [GenAI Use] Prompt:
-// "Reconstructed/generalized prompt: Improve the Explore page by adding community interactions and navigation. Add likes to public photos, mark my own uploads in the feed, allow owners to edit their own photos, and add a View on Map action from the photo detail modal."
+// "Reconstructed/generalized planning prompt: I want to add extra community and navigation features to Momento beyond the sprint requirements. Help me plan how likes, 'mine' labels, owner edit actions, and a View on Map flow should work. Give implementation suggestions and ask clarifying questions so I can decide the final behavior before building."
 
 // [GenAI Use] LLM Response Start
 // The LLM suggested backend support for likes, frontend state management, conditional rendering for owner actions, and navigation between photo details and the map.
 // [GenAI Use] LLM Response End
 
 // [GenAI Use] Reflection:
-// I validated authorization rules, integrated backend and frontend updates, and refined the user experience before committing the changes.
+// These were additional feature/design decisions I made to make the community experience more useful. I used AI in planning mode to discuss implementation options, made the final decisions about behavior, then reviewed the generated backend/frontend changes and validated the user experience before committing.
 
 // [GenAI Use] Ownership: 85%
 //
